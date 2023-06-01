@@ -1,0 +1,64 @@
+﻿@page
+@model Application_Client.Pages.Order.FormModel
+@{
+}
+<h4>Product order form</h4>
+<form asp-action="POST" id="form">
+    <label class="form-label">Member: </label>
+    <select class="form-select" asp-items="@Model.MemberSelection"></select>
+</form>
+<hr />
+<div id="orderDetailArea">
+    <form class="orderDetail">
+        <div class="row">
+            <div class="col-4">
+                <label class="form-label">Product: </label>
+                <select name="ProductId" class="form-select" asp-items="@Model.ProductSelection"></select>
+
+            </div>
+            <div class="col-4">
+                <label class="form-label">Quantity</label>
+                <input class="form-control" name="Quantity" type="number" required min="0" step="1" />
+
+            </div>
+            <div class="col-3">
+                <label class="form-label">Discount</label>
+                <input class="form-control" name="Discount" type="number" required min="0" step="0.1" />
+            </div>
+            <div class="col-1">
+                <label class="form-label">&nbsp</label>
+                <button class="form-control btn btn-danger" onclick="remove(this)" type="button">Remove</button>
+            </div>
+        </div>
+    </form>
+
+</div>
+
+<button type="button" class="btn btn-primary mt-2" onclick="addNewItem()">Add product</button>
+<button type="button" class="btn btn-success mt-2" onclick="submitOrder()">Buy</button>
+<script>
+    function addNewItem() {
+        $('#orderDetailArea').append($('.orderDetail').html());
+    }
+    function submitOrder() {
+        var a = []
+        $('.orderDetail').each(function (i, obj) {
+            var data = {};
+            var rawData = $(obj).serializeArray();
+            for (j = 0; j < rawData.length; j++) {
+                data[rawData[j].name] = rawData[j].value;
+            }
+            if (!data.Quantity || !data.Discount) {
+                alert('Invalid quantity or discount at row ' + (i + 1));
+                return;
+            }
+            a.push(data);
+        })
+    }
+    function remove(item) {
+        if ($('#orderDetailArea form').length <= 1) return;
+        $(item).parents('form.orderDetail').remove();
+
+    }
+</script>
+

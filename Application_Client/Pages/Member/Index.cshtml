@@ -1,0 +1,53 @@
+﻿@page
+@model Application_Client.Pages.Member.IndexModel
+@{
+}
+<h4>Members | <a asp-page="Form">Create New</a></h4>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Member Id</th>
+            <th>Email</th>
+            <th>Company Name</th>
+            <th>City</th>
+            <th>Country</th>
+            <th>Password</th>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var data in Model.Members)
+        {
+            <tr>
+                <td>
+                    <p>@data.MemberId</p>
+                </td>
+                <td>
+                    <p>@data.Email</p>
+                </td>
+                <td>
+                    <p>@data.CompanyName</p>
+                </td>
+                <td>
+                    <p>@data.City</p>
+                </td>
+                <td>
+                    <p>@data.Country</p>
+                </td>
+                <td>
+                    <p>@(string.Empty.PadLeft(15, '*'))</p>
+                </td>
+                <td>
+                    <a class="btn btn-warning" asp-page="Form" asp-route-id="@data.MemberId">Update</a>
+                </td>
+                <td>
+                    <form asp-action="POST">
+                        <input hidden name="MemberId" value="@data.MemberId" />
+                        <button type="submit" asp-page-handler="Delete" class="btn btn-danger">Delete</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

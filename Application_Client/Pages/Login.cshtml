@@ -1,0 +1,20 @@
+﻿@page
+@model Application_Client.Pages.LoginModel
+@{
+
+}
+<h1 class="text-center">Login</h1>
+@if (ModelState.TryGetValue("loginException", out var data))
+{
+    <span class="text-danger">@data.Errors.First().ErrorMessage</span>
+    <br />
+}
+<form asp-action="POST">
+    <label asp-for="@Model.Member.Email"></label>
+    <input type="email" class="form-control" asp-for="@Model.Member.Email" />
+    <span asp-validation-for="@Model.Member.Email" class="text-danger"></span><br />
+    <label asp-for="@Model.Member.Password"></label>
+    <input type="password" class="form-control" asp-for="@Model.Member.Password" />
+    <span asp-validation-for="@Model.Member.Password" class="text-danger"></span><br />
+    <button type="submit" class="btn btn-primary text-center mt-3">Login</button>
+</form>

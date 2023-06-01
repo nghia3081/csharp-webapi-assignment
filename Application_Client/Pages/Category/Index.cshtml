@@ -1,0 +1,37 @@
+﻿@page
+@model Application_Client.Pages.Category.IndexModel
+@{
+}
+<h4>Categories | <a asp-page="Form">Create New</a></h4>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Category Id</th>
+            <th>Category Name</th>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var data in Model.Categories)
+        {
+            <tr>
+                <td>
+                    <p>@data.CategoryId</p>
+                </td>
+                <td>
+                    <p>@data.CategoryName</p>
+                </td>
+                <td>
+                    <a class="btn btn-warning" asp-page="Form" asp-route-id="@data.CategoryId">Update</a>
+                </td>
+                <td>
+                    <form asp-action="POST">
+                        <input hidden name="CategoryId" value="@data.CategoryId"/>
+                        <button type="submit" asp-page-handler="Delete" class="btn btn-danger">Delete</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

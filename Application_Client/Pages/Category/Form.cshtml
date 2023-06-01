@@ -1,0 +1,19 @@
+﻿@page
+@model Application_Client.Pages.Category.FormModel
+@{
+}
+<h4>Category form</h4>
+<form asp-action="POST">
+    @if (Model.Category != null)
+    {
+        <label class="form-label" asp-for="Category.CategoryId"></label>
+        <input class="form-control" asp-for="Category.CategoryId" readonly="true" />
+        <span asp-validation-for="Category.CategoryId" class="text-danger"></span>
+
+        <br />
+    }
+    <label class="form-label" asp-for="Category.CategoryName"></label>
+    <input class="form-control" asp-for="Category.CategoryName" />
+    <span asp-validation-for="Category.CategoryName" class="text-danger"></span><br />
+    <button class="btn btn-primary" type="submit">Save</button>
+</form>

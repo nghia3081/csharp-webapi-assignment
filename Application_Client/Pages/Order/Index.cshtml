@@ -1,0 +1,46 @@
+﻿@page
+@model Application_Client.Pages.Order.IndexModel
+@{
+}
+<h4>Orders | <a class="nav-link" asp-page="Form">Add new order</a></h4>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Order By</th>
+            <th>Order Date</th>
+            <th>RequireDate</th>
+            <th>ShippedDate</th>
+            <th>Freight</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var data in Model.Orders)
+        {
+            <tr>
+                <td>
+                    <p>@data.OrderId</p>
+                </td>
+                <td>
+                    <a class="nav-link" asp-page="Member" asp-route-id="@data.Member?.MemberId">@data.Member?.Email</a>
+                </td>
+                <td>
+                    <p>@data.OrderDate.ToString("dd-MM-yyyy")</p>
+                </td>
+                <td>
+                    <p>@data.RequireDate?.ToString("dd-MM-yyyy")</p>
+                </td>
+                <td>
+                    <p>@data.ShippedDate?.ToString("dd-MM-yyyy")</p>
+                </td>
+                <td>
+                    <p>@data.Freight.ToString("0.##")</p>
+                </td>
+                <td>
+                    <a class="nav-link" asp-page="Detail" asp-route-id="@data.OrderId">Detail</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

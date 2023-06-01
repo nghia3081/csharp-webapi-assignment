@@ -1,0 +1,36 @@
+﻿@page
+@model Application_Client.Pages.Product.FormModel
+@{
+}
+<h4>Product form</h4>
+<form asp-action="POST">
+    @if (Model.Product != null && Model.Product.ProductId != 0)
+    {
+        <label class="form-label" asp-for="Product.ProductId"></label>
+        <input class="form-control" asp-for="Product.ProductId" readonly="true" />
+        <span asp-validation-for="Product.ProductId" class="text-danger"></span>
+
+        <br />
+    }
+    <label class="form-label" asp-for="Product.CategoryId"></label>
+    <select required class="form-select" asp-for="Product.CategoryId" asp-items="@Model.Categories"></select>
+    <span asp-validation-for="Product.CategoryId" class="text-danger"></span><br />
+
+    <label class="form-label" asp-for="Product.ProductName"></label>
+    <input class="form-control" asp-for="Product.ProductName" />
+    <span asp-validation-for="Product.ProductName" class="text-danger"></span><br />
+
+    <label class="form-label" asp-for="Product.Weight"></label>
+    <input type="number" class="form-control" asp-for="Product.Weight" />
+    <span asp-validation-for="Product.Weight" class="text-danger"></span><br />
+
+    <label class="form-label" asp-for="Product.UnitPrice"></label>
+    <input type="number" class="form-control" asp-for="Product.UnitPrice" />
+    <span asp-validation-for="Product.UnitPrice" class="text-danger"></span><br />
+
+    <label class="form-label" asp-for="Product.UnitsInStock"></label>
+    <input type="number" step="1" min="1" class="form-control" asp-for="Product.UnitsInStock" />
+    <span asp-validation-for="Product.UnitsInStock" class="text-danger"></span><br />
+
+    <button class="btn btn-primary" type="submit">Save</button>
+</form>

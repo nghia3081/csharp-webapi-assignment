@@ -1,0 +1,105 @@
+﻿@page
+@model Application_Client.Pages.Order.FormModel
+<h4>Product order form</h4>
+<form asp-action="POST" id="orderForm">
+    <label class="form-label">Member: </label>
+    <select name="MemberId" class="form-select" asp-items="@Model.MemberSelection"></select>
+</form>
+<hr />
+<div id="orderDetailArea">
+    <div class="orderDetail">
+        <form class="orderDetailForm">
+            <div class="row">
+                <div class="col-4">
+                    <label class="form-label">Product: </label>
+                    <select name="ProductId" class="form-select" asp-items="@Model.ProductSelection"></select>
+
+                </div>
+                <div class="col-4">
+                    <label class="form-label">Quantity:</label>
+                    <input class="form-control" name="Quantity" type="number" required min="0" step="1" />
+
+                </div>
+                <div class="col-3">
+                    <label class="form-label">Discount:</label>
+                    <input class="form-control" name="Discount" type="number" required min="0" step="0.1" />
+                </div>
+                <div class="col-1">
+                    <label class="form-label">&nbsp</label>
+                    <button class="form-control btn btn-danger" onclick="remove(this)" type="button">Remove</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<button type="button" class="btn btn-primary mt-2" onclick="addNewItem()">Add product</button>
+<hr />
+
+
+<button type="button" class="btn btn-success mt-2" onclick="submitOrder()">Order</button>
+<script>
+    function addNewItem() {
+        $('#orderDetailArea').append($('.orderDetail').html());
+    }
+    function getOrderDetail() {
+        var order = []
+        var stop = false;
+
+        $('.orderDetailForm').each(function (i, obj) {
+            if (stop) return;
+            var data = {};
+            var rawData = $(obj).serializeArray();
+            for (j = 0; j < rawData.length; j++) {
+                data[rawData[j].name] = rawData[j].value;
+            }
+            const checkDupProduct = (element) => element.ProductId === data.ProductId;
+            if (order.some(checkDupProduct)) {
+                alert('Duplicate product at row ' + (i + 1));
+                stop = true;
+                return;
+            }
+            if (!data.Quantity || !data.Discount) {
+                alert('Invalid quantity or discount at row ' + (i + 1));
+                stop = true;
+                return;
+            }
+            order.push(data);
+        })
+        return order;
+    }
+    function submitOrder() {
+        var order = {};
+        var rawData = $('#orderForm').serializeArray();
+        for (j = 0; j < rawData.length; j++) {
+            order[rawData[j].name] = rawData[j].value;
+        }
+        order.OrderDetails = getOrderDetail();
+        if (order.OrderDetails.length == 0) return;
+        var url = '@($"{Request.Scheme}://{Request.Host}{Request.Path}")';
+        $.ajax(url, {
+            dataType: 'json',
+            method: 'POST',
+            data: JSON.stringify(order),
+            contentType: "application/json",
+            statusCode: {
+                200: function () {
+                    alert("Success");
+                },
+                500: function () {
+                    alert("An error has occure");
+                }
+            }, headers: {
+                RequestVerificationToken: order.__RequestVerificationToken
+            },
+
+        })
+    }
+    function remove(item) {
+        if ($('#orderDetailArea')[0].childElementCount <= 1) {
+            console.log($('#orderDetailArea')); return;
+        }
+        $(item).parents("form.orderDetailForm").remove();
+
+    }
+</script>
+

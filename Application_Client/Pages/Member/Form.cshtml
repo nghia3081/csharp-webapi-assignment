@@ -1,0 +1,40 @@
+﻿@page
+@model Application_Client.Pages.Member.FormModel
+@{
+}
+<h4>Member form</h4>
+@if (ModelState.TryGetValue("memberError", out var data))
+{
+    <span class="text-danger">@data.Errors.First().ErrorMessage</span>
+    <br />
+}
+<form asp-action="POST">
+    @if (Model.Member != null)
+    {
+        <label class="form-label" asp-for="Member.MemberId"></label>
+        <input class="form-control" asp-for="Member.MemberId" readonly="true" />
+        <span asp-validation-for="Member.MemberId" class="text-danger"></span>
+
+        <br />
+    }
+    <label class="form-label" asp-for="Member.Email"></label>
+    <input type="email" class="form-control" asp-for="Member.Email" />
+    <span asp-validation-for="Member.Email" class="text-danger"></span><br />
+
+    <label class="form-label" asp-for="Member.CompanyName"></label>
+    <input class="form-control" asp-for="Member.CompanyName" />
+    <span asp-validation-for="Member.CompanyName" class="text-danger"></span><br />
+
+    <label class="form-label" asp-for="Member.City"></label>
+    <input class="form-control" asp-for="Member.City" />
+    <span asp-validation-for="Member.City" class="text-danger"></span><br />
+
+    <label class="form-label" asp-for="Member.Country"></label>
+    <input class="form-control" asp-for="Member.Country" />
+    <span asp-validation-for="Member.Country" class="text-danger"></span><br />
+
+    <label class="form-label" asp-for="Member.Password"></label>
+    <input class="form-control" asp-for="Member.Password"  />
+    <span asp-validation-for="Member.Password" class="text-danger"></span><br />
+    <button class="btn btn-primary" type="submit">Save</button>
+</form>

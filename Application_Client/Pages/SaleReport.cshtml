@@ -1,0 +1,43 @@
+﻿@page
+@model Application_Client.Pages.SaleReportModel
+@{
+}
+<h4>Sale report</h4>
+<form asp-page-handler="list">
+    <label class="form-label">Start Date: </label>
+    <input type="date" class="form-control" asp-for="startDate" required />
+    <label class="form-label">End Date: </label>
+    <input type="date" class="form-control" asp-for="endDate" required />
+    <label class="form-check-label">Sort total money sale by descending: </label>
+    <input class="form-check-input" asp-for="descendingOrder" /><br />
+    <button  type="submit" class="btn btn-primary">Search</button>
+</form>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Product
+            </th>
+            <th>
+                Total Quantity Sale
+            </th>
+            <th>
+                Total Money Sale
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var sale in Model.SaleReports)
+        {
+            <tr>
+                <td>@sale.Product.ProductName</td>
+                <td>
+                    @sale.TotalQuantitySale
+                </td>
+                <td>
+                    @sale.TotalMoneySale
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

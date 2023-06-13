@@ -1,0 +1,75 @@
+﻿@page
+@model Application_Client.Pages.Product.IndexModel
+@{
+}
+<div class="row">
+    <div class="col-4">
+        <h4>Products | <a asp-page="Form">Create New</a></h4>
+    </div>
+    <div class="col-8">
+        <form method="GET">
+            <div class="row">
+                <div class="col-5">
+                    <input type="search" placeholder="Search by product name" class="form-control" asp-for="productName" />
+                </div>
+                <div class="col-5">
+                    <input type="number" min="0" placeholder="Search by unit price" class="form-control" asp-for="unitPrice" />
+                </div>
+                <div class="col-2">
+                    <input type="submit" class="btn btn-primary" value="Search" />
+                </div>
+            </div>
+
+
+        </form>
+
+    </div>
+</div>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Product Id</th>
+            <th>Category Name</th>
+            <th>ProductName</th>
+            <th>Weight</th>
+            <th>UnitPrice</th>
+            <th>UnitsInStock</th>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var data in Model.Products)
+        {
+            <tr>
+                <td>
+                    <p>@data.ProductId</p>
+                </td>
+                <td>
+                    <p>@data.Category?.CategoryName</p>
+                </td>
+                <td>
+                    <p>@data.ProductName</p>
+                </td>
+                <td>
+                    <p>@data.Weight</p>
+                </td>
+                <td>
+                    <p>@data.UnitPrice.ToString("0.##")</p>
+                </td>
+                <td>
+                    <p>@data.UnitsInStock</p>
+                </td>
+                <td>
+                    <a class="btn btn-warning" asp-page="Form" asp-route-id="@data.ProductId">Update</a>
+                </td>
+                <td>
+                    <form asp-action="POST">
+                        <input hidden name="ProductId" value="@data.ProductId" />
+                        <button type="submit" asp-page-handler="Delete" class="btn btn-danger">Delete</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

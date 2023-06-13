@@ -1,0 +1,94 @@
+﻿@page
+
+@model Application_Client.Pages.Order.IndexModel
+@inject IHttpContextAccessor HttpContextAccessor;
+@{
+    bool isAdmin = (HttpContextAccessor.HttpContext.Session.GetInt32(Constant.IsAdminSessionKey) ?? 0) == 1;
+}
+<h4>
+    Orders | @if (isAdmin)
+    {
+        <a asp-page="Form">Add new order</a>
+    }
+</h4>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Order By</th>
+            <th>Order Date</th>
+            <th>RequireDate</th>
+            <th>ShippedDate</th>
+            <th>Freight</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var data in Model.Orders)
+        {
+            <tr>
+                <td>
+                    <p>@data.OrderId</p>
+                </td>
+                <td>
+                    @data.Member?.Email
+                </td>
+                <td>
+                    <p>@data.OrderDate.ToString("dd-MM-yyyy hh:mm:ss")</p>
+                </td>
+                <td>
+                    <p>@data.RequireDate?.ToString("dd-MM-yyyy hh:mm:ss")</p>
+                </td>
+                <td>
+                    <p>@data.ShippedDate?.ToString("dd-MM-yyyy hh:mm:ss")</p>
+                </td>
+                <td>
+                    <p>@data.Freight.ToString("0.##")</p>
+                </td>
+                <td>
+                    <div class="dropdown">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Order Detail
+                        </button>
+                        <ul class="dropdown-menu">
+                            <table class="table dropdown-item">
+                                <tr>
+                                    <th>
+                                        Product Name
+                                    </th>
+                                    <th>
+                                        UnitPrice
+                                    </th>
+                                    <th>
+                                        Quantity
+                                    </th>
+                                    <th>
+                                        Discount(%)
+                                    </th>
+                                </tr>
+                                @foreach (var detail in data.OrderDetails)
+                                {
+                                    <tr>
+                                        <td>
+                                            @detail.Product?.ProductName
+                                        </td>
+                                        <td>
+                                            @detail.UnitPrice
+                                        </td>
+                                        <td>
+                                            @detail.Quantity
+                                        </td>
+                                        <td>
+                                            @detail.Discount
+                                        </td>
+                                    </tr>
+                                }
+                            </table>
+
+                        </ul>
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
